@@ -7,11 +7,10 @@ const fetchApi = async () => {
     .then((res) => res.json())
     .then((data) => (articles = data));
 
-  console.log(articles);
+  // console.log(articles);
 };
 
-/* Je crée une fonction avec une boucle pour 
-afficher mes vignettes */
+/* Je crée une fonction avec une boucle pour afficher mes vignettes */
 const canapDisplay = async () => {
   await fetchApi();
   let items = document.getElementById("items");
