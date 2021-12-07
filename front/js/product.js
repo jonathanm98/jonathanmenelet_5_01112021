@@ -5,6 +5,7 @@ let prix = document.getElementById("price");
 let description = document.getElementById("description");
 let product = [];
 let cartUser = {};
+let storage = localStorage;
 
 /* Je récupére mon produit depuis mon API */
 const fetchApiProduct = async () => {
@@ -34,8 +35,7 @@ const productPush = async () => {
     selectorColor.innerHTML += `
     <option value="${product.colors[i]}">${product.colors[i]}</option>`;
   }
-  console.log(product);
-  //on stock les infos nom/prix dans l'objet cartUser
+  //on stock les infos nom/prix/id dans l'objet cartUser
   cartUser.name = product.name;
   cartUser.price = product.price;
   cartUser.id = product._id;
@@ -47,22 +47,24 @@ productPush();
 colorSelector = document.getElementById("colors");
 quantitySelector = document.getElementById("quantity");
 validateInput = document.getElementById("addToCart");
-color = "";
-quantity = "";
 
+// On envoie la couleur choisie de la liste déroulante dans l'objet cartUser
 colorSelector.addEventListener("input", (e) => {
-  color = e.target.value;
-  cartUser.color = color;
+  cartUser.color = e.target.value;
 });
+// On recupere la quantité choisie dans l'objet cartUser
 quantitySelector.addEventListener("input", (e) => {
-  quantity = e.target.value;
-  cartUser.quantity = quantity;
+  cartUser.quantity = e.target.value;
 });
+// On envoie notre objet cartUser dans le localStorage
 validateInput.addEventListener("click", () => {
   for (i = 0; i < localStorage.length; i++) {
+    // Condition pour additionner les produits identiques ou ajouter les nouveaux
     if (localStorage.key(i) == cartUser.id + cartUser.color) {
       let cartItem = JSON.parse(localStorage.getItem(localStorage.key(i)));
       cartUser.quantity += parseInt(cartItem.quantity);
+
+      console.log(cartItem);
       break;
     }
   }
