@@ -12,7 +12,6 @@ const fetchApiProduct = async () => {
     .then((res) => res.json())
     .then((data) => (product = data));
 };
-fetchApiProduct();
 
 // Je modifie les éléments de la page par rapport au produit séléctionné
 const productPush = async () => {
@@ -39,6 +38,7 @@ const productPush = async () => {
   //on stock les infos nom/prix dans l'objet cartUser
   cartUser.name = product.name;
   cartUser.price = product.price;
+  cartUser.id = product._id;
 };
 productPush();
 
@@ -59,5 +59,12 @@ quantitySelector.addEventListener("input", (e) => {
   cartUser.quantity = quantity;
 });
 validateInput.addEventListener("click", () => {
-  sessionStorage;
+  for (i = 0; i < localStorage.length; i++) {
+    if (localStorage.key(i) == cartUser.id + cartUser.color) {
+      let cartItem = JSON.parse(localStorage.getItem(localStorage.key(i)));
+      cartUser.quantity += parseInt(cartItem.quantity);
+      break;
+    }
+  }
+  localStorage.setItem(cartUser.id + cartUser.color, JSON.stringify(cartUser));
 });
