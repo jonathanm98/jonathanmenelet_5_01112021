@@ -62,9 +62,11 @@ validateInput.addEventListener("click", () => {
     // Condition pour additionner les produits identiques ou ajouter les nouveaux
     if (localStorage.key(i) == cartUser.id + cartUser.color) {
       let cartItem = JSON.parse(localStorage.getItem(localStorage.key(i)));
-      cartUser.quantity += parseInt(cartItem.quantity);
-
-      console.log(cartItem);
+      localQty = parseInt(cartUser.quantity);
+      storageQty = parseInt(cartItem.quantity);
+      localQty += storageQty;
+      console.log(typeof parseInt(cartItem.quantity));
+      console.log(typeof parseInt(cartUser.quantity));
       break;
     }
   }
