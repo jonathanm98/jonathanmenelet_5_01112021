@@ -62,13 +62,15 @@ validateInput.addEventListener("click", () => {
     // Condition pour additionner les produits identiques ou ajouter les nouveaux
     if (localStorage.key(i) == cartUser.id + cartUser.color) {
       let cartItem = JSON.parse(localStorage.getItem(localStorage.key(i)));
-      localQty = parseInt(cartUser.quantity);
-      storageQty = parseInt(cartItem.quantity);
-      localQty += storageQty;
-      console.log(typeof parseInt(cartItem.quantity));
-      console.log(typeof parseInt(cartUser.quantity));
-      break;
+      // localQty = parseInt(cartUser.quantity);
+      // storageQty = parseInt(cartItem.quantity);
+      cartUser.quantity += cartItem.quantity;
+      console.log(cartItem.quantity);
+      console.log(cartUser.quantity);
+      localStorage.setItem(
+        cartUser.id + cartUser.color,
+        JSON.stringify(cartUser)
+      );
     }
   }
-  localStorage.setItem(cartUser.id + cartUser.color, JSON.stringify(cartUser));
 });
