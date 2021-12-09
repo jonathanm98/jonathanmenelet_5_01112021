@@ -4,7 +4,13 @@ let image = document.querySelector(".item__img");
 let prix = document.getElementById("price");
 let description = document.getElementById("description");
 let product = [];
-let cartUser = {};
+let cartUser = {
+  name: "",
+  price: "",
+  id: "",
+  color: "",
+  quantity: "0",
+};
 let storage = localStorage;
 
 /* Je récupére mon produit depuis mon API */
@@ -62,15 +68,12 @@ validateInput.addEventListener("click", () => {
     // Condition pour additionner les produits identiques ou ajouter les nouveaux
     if (localStorage.key(i) == cartUser.id + cartUser.color) {
       let cartItem = JSON.parse(localStorage.getItem(localStorage.key(i)));
-      // localQty = parseInt(cartUser.quantity);
-      // storageQty = parseInt(cartItem.quantity);
-      cartUser.quantity += cartItem.quantity;
-      console.log(cartItem.quantity);
-      console.log(cartUser.quantity);
-      localStorage.setItem(
-        cartUser.id + cartUser.color,
-        JSON.stringify(cartUser)
-      );
+      localQty = parseInt(cartUser.quantity);
+      storageQty = parseInt(cartItem.quantity);
+      storageQty += localQty;
+      console.log(storageQty);
+      console.log(localQty);
     }
   }
+  localStorage.setItem(cartUser.id + cartUser.color, JSON.stringify(cartUser));
 });
