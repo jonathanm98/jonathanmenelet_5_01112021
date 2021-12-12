@@ -60,20 +60,28 @@ colorSelector.addEventListener("input", (e) => {
 });
 // On recupere la quantité choisie dans l'objet cartUser
 quantitySelector.addEventListener("input", (e) => {
-  cartUser.quantity = e.target.value;
+  cartUser.quantity = parseInt(e.target.value);
 });
 // On envoie notre objet cartUser dans le localStorage
 validateInput.addEventListener("click", () => {
-  for (i = 0; i < localStorage.length; i++) {
-    // Condition pour additionner les produits identiques ou ajouter les nouveaux
-    if (localStorage.key(i) == cartUser.id + cartUser.color) {
-      let cartItem = JSON.parse(localStorage.getItem(localStorage.key(i)));
-      localQty = parseInt(cartUser.quantity);
-      storageQty = parseInt(cartItem.quantity);
-      storageQty += localQty;
-      console.log(storageQty);
-      console.log(localQty);
+  let getCart = JSON.parse(localStorage.getItem("panier"));
+
+  if (getCart) {
+    const getProduct = getCart.find(
+      (element) => element.id == cartUser.id && element.color == cartUser.color
+    );
+
+    if (getProduct) {
+      getProduct.quantity += cartUser.quantity;
+
+      localStorage.setItem("panier", JSON.stringify(getCart));
+      return;
     }
+    getCart.push(cartUser);
+    localStorage.setItem("panier", JSON.stringify(getCart));
+  } else {
+    const cart = [];
+    cart.push(cartUser);
+    localStorage.setItem("panier", JSON.stringify(cart));
   }
-  localStorage.setItem(cartUser.id + cartUser.color, JSON.stringify(cartUser));
 });
