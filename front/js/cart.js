@@ -171,3 +171,4 @@ submitInfo.addEventListener("click", (e) => {
     console.log("redirection");
   }
 });
+console.log(panier);
