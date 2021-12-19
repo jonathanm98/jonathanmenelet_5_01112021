@@ -15,6 +15,8 @@ let cartUser = {
   id: "",
   color: "",
   quantity: "0",
+  srcImg: "",
+  altTxt: "",
 };
 let storage = localStorage;
 
