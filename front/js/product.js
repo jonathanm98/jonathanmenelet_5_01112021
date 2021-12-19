@@ -3,6 +3,11 @@ let productId = window.location.search.replace("?id=", "");
 let image = document.querySelector(".item__img");
 let prix = document.getElementById("price");
 let description = document.getElementById("description");
+
+let colorSelector = document.getElementById("colors");
+let quantitySelector = document.getElementById("quantity");
+let validateInput = document.getElementById("addToCart");
+
 let product = [];
 let cartUser = {
   name: "",
@@ -45,14 +50,10 @@ const productPush = async () => {
   cartUser.name = product.name;
   cartUser.price = product.price;
   cartUser.id = product._id;
+  cartUser.srcImg = product.imageUrl;
+  cartUser.altTxt = product.altTxt;
 };
 productPush();
-
-// Stockage des choix de l'utilisateur
-
-colorSelector = document.getElementById("colors");
-quantitySelector = document.getElementById("quantity");
-validateInput = document.getElementById("addToCart");
 
 // On envoie la couleur choisie de la liste déroulante dans l'objet cartUser
 colorSelector.addEventListener("input", (e) => {
@@ -62,10 +63,10 @@ colorSelector.addEventListener("input", (e) => {
 quantitySelector.addEventListener("input", (e) => {
   cartUser.quantity = parseInt(e.target.value);
 });
-// On envoie notre objet cartUser dans le localStorage
+
+// On envoie notre objet cartUser dans le localStorage ou on l'incrémente si il existe déjà
 validateInput.addEventListener("click", () => {
   let getCart = JSON.parse(localStorage.getItem("panier"));
-
   if (getCart) {
     const getProduct = getCart.find(
       (element) => element.id == cartUser.id && element.color == cartUser.color
