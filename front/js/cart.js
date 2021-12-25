@@ -193,7 +193,7 @@ if (panier == null) {
 } else {
   orderId = window.location.search.replace("?", "");
   document.getElementById("orderId").innerHTML = orderId;
-  // localStorage.removeItem("panier");
+  localStorage.removeItem("panier");
 }
 
 // submitInfo.addEventListener("click", (e) => {
