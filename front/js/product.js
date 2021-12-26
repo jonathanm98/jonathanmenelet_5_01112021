@@ -1,13 +1,12 @@
-// on récupére l'id de l'url pour cibler notre canapé dans l'API
+// on récupére l'id de notre produit depuis l'url pour cibler notre canapé dans l'API
 let productId = window.location.search.replace("?id=", "");
 let image = document.querySelector(".item__img");
 let prix = document.getElementById("price");
 let description = document.getElementById("description");
-
 let colorSelector = document.getElementById("colors");
 let quantitySelector = document.getElementById("quantity");
 let validateInput = document.getElementById("addToCart");
-
+let storage = JSON.parse(localStorage.getItem("panier"));
 let product = [];
 let cartUser = {
   name: "",
@@ -18,7 +17,6 @@ let cartUser = {
   srcImg: "",
   altTxt: "",
 };
-let storage = localStorage;
 
 /* Je récupére mon produit depuis mon API */
 const fetchApiProduct = async () => {
@@ -30,7 +28,7 @@ const fetchApiProduct = async () => {
 // Je modifie les éléments de la page par rapport au produit séléctionné
 const productPush = async () => {
   await fetchApiProduct();
-  //Titre header
+  //Titre document
   document.title = product.name;
 
   //Image section
@@ -66,8 +64,35 @@ quantitySelector.addEventListener("input", (e) => {
   cartUser.quantity = parseInt(e.target.value);
 });
 
-// On envoie notre objet cartUser dans le localStorage ou on l'incrémente si il existe déjà
+// EventListener pour la soumition du formulaire
 validateInput.addEventListener("click", () => {
+  //Fonction qui sera appelé à chaque click et qui definiera que faire de notre obj cartUser
+  function produitDoublon() {
+    const getProduct = storage.find(
+      (element) => element.id == cartUser.id && element.color == cartUser.color
+    );
+    if (cartUser.color == "") {
+      alert("Veuillez choisir une coulaur valide");
+    } else if (cartUser.quantity == 0 || cartUser.quantity == "") {
+      alert("Veuillez choisir une quantité");
+    } else if (getProduct) {
+      for (article of storage) {
+        if (article.id === cartUser.id) {
+          article.quantity += cartUser.quantity;
+        }
+      }
+      localStorage.setItem("panier", JSON.stringify(storage));
+    } else {
+      storage.push(cartUser);
+      localStorage.setItem("panier", JSON.stringify(storage));
+    }
+  }
+  produitDoublon();
+  console.log(JSON.parse(localStorage.getItem("panier")));
+});
+
+//
+/*validateInput.addEventListener("click", () => {
   let getCart = JSON.parse(localStorage.getItem("panier"));
   if (getCart) {
     const getProduct = getCart.find(
@@ -87,4 +112,4 @@ validateInput.addEventListener("click", () => {
     cart.push(cartUser);
     localStorage.setItem("panier", JSON.stringify(cart));
   }
-});
+});*/
