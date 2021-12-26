@@ -13,12 +13,16 @@ products = [];
 orderId = undefined;
 inputError = 0;
 //
-//------Affichage des vignettes pour les éléments du panier
+//------Affichage des vignettes pour chaque élément du panier
+//
+// SI le panier est vide on affiche "Vous n'avez aucun article dans votre panier !" à la place
 if (panier == null) {
   document.getElementById(
     "cart__items"
   ).innerHTML = `<h3 style="text-align: center; margin-bottom: 50px;">Vous n'avez aucun article dans votre panier !</h3>`;
-} else if (location.href.search("confirmation") < 0) {
+}
+// SINON SI nous nous trouvons dans la page panier on execute notre code
+else if (location.href.search("confirmation") < 0) {
   for (let article of panier) {
     qty += article.quantity;
     total += article.quantity * article.price;
@@ -47,6 +51,7 @@ if (panier == null) {
   `;
     document.getElementById("cart__items").innerHTML += html;
   }
+  // Affichage de la quantité et du prix total
   document.getElementById("totalQuantity").innerHTML = qty;
   document.getElementById("totalPrice").innerHTML = Intl.NumberFormat("fr-FR", {
     style: "currency",
@@ -54,8 +59,8 @@ if (panier == null) {
   }).format(total);
 
   //
-  //------Modificateur quantité panier
-  let recalc = function () {
+  //------ Fonction qui recalcule le total des quantité et du prix
+  function recalc() {
     let quantity = 0;
     let total = 0;
     for (article of panier) {
@@ -70,26 +75,34 @@ if (panier == null) {
         currency: "EUR",
       }
     ).format(total);
-  };
+  }
 
+  // Boucle qui ajoute un eventListener sur toute les vignettes d'article affichés dans le panier
   for (let i = 0; i < vignettes.length; i++) {
     let vignette = vignettes[i];
     vignette.addEventListener("input", (e) => {
+      //On envoie la quantité selectionnée dans le panier
       panier[i].quantity = parseInt(e.target.value);
+      // On met à jour le localstorage
       localStorage.setItem("panier", JSON.stringify(panier));
+      // on lance la fonction qui va mettre à jour le prix et le total de la page panier
       recalc();
     });
   }
   //
-  // Bouton de suppression d'item du panier
+  // Boucle qui ajoute un eventListener sur toute les vignettes d'article affichés dans le panier
   for (let i = 0; i < vignettes.length; i++) {
     let suppressions = document.getElementsByClassName("deleteItem");
     let suppr = suppressions[i];
     let vignette = vignettes[i];
     suppr.addEventListener("click", () => {
+      // On supprime de notre panier l'élément de la boucle selectionné via splice()
       panier.splice(i, 1);
+      // on supprime le code HTML de ce même élément
       vignette.remove();
+      // On met à jour le localstorage
       localStorage.setItem("panier", JSON.stringify(panier));
+      // on lance la fonction qui va mettre à jour le prix et le total de la page panier
       recalc();
     });
   }
@@ -97,39 +110,47 @@ if (panier == null) {
   //
   //------Formulaire utilisateur
 
+  // On récupère nos balises d'input du formulaire
   inputFirstName = document.querySelectorAll(".cart__order__form__question")[0];
-  errFirstName = document.querySelectorAll(".cart__order__form__question p")[0];
   inputLastName = document.querySelectorAll(".cart__order__form__question")[1];
-  errLastName = document.querySelectorAll(".cart__order__form__question p")[1];
   inputAddress = document.querySelectorAll(".cart__order__form__question")[2];
-  errAddress = document.querySelectorAll(".cart__order__form__question p")[2];
   inputCity = document.querySelectorAll(".cart__order__form__question")[3];
-  errCity = document.querySelectorAll(".cart__order__form__question p")[3];
   inputEmail = document.querySelectorAll(".cart__order__form__question")[4];
+  // On récupère aussi les balise qui afficheront les erreurs si il y en a
+  errFirstName = document.querySelectorAll(".cart__order__form__question p")[0];
+  errLastName = document.querySelectorAll(".cart__order__form__question p")[1];
+  errAddress = document.querySelectorAll(".cart__order__form__question p")[2];
+  errCity = document.querySelectorAll(".cart__order__form__question p")[3];
   errEmail = document.querySelectorAll(".cart__order__form__question p")[4];
+  // On récupère le bouton de soummision di formulaire
   submitInfo = document.getElementById("order");
 
   validForm = false;
-  emailRegExp = "";
+  // EventListener qui récupère le prénom
   inputFirstName.addEventListener("change", (e) => {
     validFirstName(e.target.value);
     contact.firstName = e.target.value;
   });
+  // EventListener qui récupère le nom de famille
   inputLastName.addEventListener("change", (e) => {
     validLastName(e.target.value);
     contact.lastName = e.target.value;
   });
+  // EventListener qui récupère l'adresse
   inputAddress.addEventListener("change", (e) => {
     contact.address = e.target.value;
   });
+  // EventListener qui récupère la ville
   inputCity.addEventListener("change", (e) => {
     contact.city = e.target.value;
   });
+  // EventListener qui récupère l'email
   inputEmail.addEventListener("change", (e) => {
     validEmail(e.target.value);
     contact.email = e.target.value;
   });
-  const validFirstName = (firstName) => {
+  // Fonction qui vérifie à l'aide d'une RegExp que le champ prénom ne contiens pas de chiffre
+  function validFirstName(firstName) {
     if (!/[0-9]/.test(firstName)) {
       errFirstName.innerText = "";
       validForm = true;
@@ -137,8 +158,9 @@ if (panier == null) {
       errFirstName.innerText = "Votre prénom ne peut pas contenir de chiffre";
       validForm = false;
     }
-  };
-  const validLastName = (lastName) => {
+  }
+  // Fonction qui vérifie à l'aide d'une RegExp que le champ nom ne contiens pas de chiffre
+  function validLastName(lastName) {
     if (!/[0-9]/.test(lastName)) {
       errLastName.innerText = "";
       validForm = true;
@@ -146,8 +168,9 @@ if (panier == null) {
       errLastName.innerText = "Votre nom ne peut pas contenir de chiffre";
       return false;
     }
-  };
-  const validEmail = (email) => {
+  }
+  // Fonction qui vérifie à l'aide d'une RegExp que le champ email est au format "texte@texte.txt"
+  function validEmail(email) {
     let emailRegExp = new RegExp(
       /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
     );
@@ -158,64 +181,45 @@ if (panier == null) {
       errEmail.innerHTML = "Votre mail n'est pas valide !";
       validForm = false;
     }
-  };
+  }
+  // Eventlistener qui fonctionne seulement si tout les champs sont correctement rempli
   submitInfo.addEventListener("click", (e) => {
     e.preventDefault();
-    if (validForm) {
-      let collectDatas = () => {
-        for (let article of panier) {
-          products.push(article.id);
-        }
-      };
-      collectDatas();
-      let sendData = async function () {
-        await fetch("http://localhost:3000/api/products/order", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ contact, products }),
+    // Fonction fetch qui envoie à l'API un objet contenant l'objet 'contact' et le tableau 'products'
+    async function sendData() {
+      await fetch("http://localhost:3000/api/products/order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ contact, products }),
+      })
+        // Ensuite on stock la réponse de l'api (orderId)
+        .then(function (response) {
+          return response.json();
         })
-          .then(function (response) {
-            return response.json();
-          })
-          .then(function (data) {
-            orderId = data.orderId;
-          });
-        if (orderId != undefined || orderId != "") {
-          location.href = "confirmation.html?" + orderId;
-        }
-      };
+        .then(function (data) {
+          orderId = data.orderId;
+        });
+      // SI on a bien obtenu un orderId en réponse on redirige notre utilisateur
+      if (orderId != undefined || orderId != "") {
+        location.href = "confirmation.html?" + orderId;
+      }
+    }
+    function collectDatas() {
+      for (let article of panier) {
+        products.push(article.id);
+      }
+    }
+    if (validForm) {
+      collectDatas();
       sendData();
-    } else {
     }
   });
-} else {
+}
+// SINON c'est que nous sommes sur la page "confirmation.html" et on affiche le numero de commande stocké dans l'URL
+else {
   orderId = window.location.search.replace("?", "");
   document.getElementById("orderId").innerHTML = orderId;
   localStorage.removeItem("panier");
 }
-
-// submitInfo.addEventListener("click", (e) => {
-//   e.preventDefault();
-//   if (contact.firstName == undefined || contact.firstName == "") {
-//     errFirstName.innerHTML = "Ce champ ne doit pas être vide";
-//   }
-//   if (contact.lastName == undefined || contact.lastName == "") {
-//     errLastName.innerHTML = "Ce champ ne doit pas être vide";
-//   }
-//   if (contact.address == undefined || contact.address == "") {
-//     errAddress.innerHTML = "Ce champ ne doit pas être vide";
-//   }
-//   if (contact.city == undefined || contact.city == "") {
-//     errCity.innerHTML = "Ce champ ne doit pas être vide";
-//   }
-//   if (contact.email == undefined || contact.email == "") {
-//     errEmail.innerHTML = "Ce champ ne doit pas être vide";
-//   } else {
-//     for (let article of panier) {
-//       products.push(article.id);
-//     }
-//
-//   }
-// });
