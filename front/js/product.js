@@ -68,48 +68,36 @@ quantitySelector.addEventListener("input", (e) => {
 validateInput.addEventListener("click", () => {
   //Fonction qui sera appelé à chaque click et qui definiera que faire de notre obj cartUser
   function produitDoublon() {
+    //Courte fonction qui permettra de trouver les articles en doublon
     const getProduct = storage.find(
       (element) => element.id == cartUser.id && element.color == cartUser.color
     );
+    // SI la couleur n'est pas definie,
     if (cartUser.color == "") {
+      //on averti l'utilisateur que le champ doit être renseigné
       alert("Veuillez choisir une coulaur valide");
-    } else if (cartUser.quantity == 0 || cartUser.quantity == "") {
+    }
+    // SINON SI la quantité n'est pas definie,
+    else if (cartUser.quantity == 0 || cartUser.quantity == "") {
+      //on averti l'utilisateur que le champ doit être renseigné
       alert("Veuillez choisir une quantité");
-    } else if (getProduct) {
+    }
+    // SINON SI un objet existe deja dans notre panier et que son id correspond a un id existant dans le penier
+    else if (getProduct) {
       for (article of storage) {
         if (article.id === cartUser.id) {
+          // On créer une affectation après addition
           article.quantity += cartUser.quantity;
         }
       }
+      // On envoie le tout dans notre localStorage
       localStorage.setItem("panier", JSON.stringify(storage));
-    } else {
+    }
+    // SINON On envoie le tout dans notre localStorage
+    else {
       storage.push(cartUser);
       localStorage.setItem("panier", JSON.stringify(storage));
     }
   }
   produitDoublon();
-  console.log(JSON.parse(localStorage.getItem("panier")));
 });
-
-//
-/*validateInput.addEventListener("click", () => {
-  let getCart = JSON.parse(localStorage.getItem("panier"));
-  if (getCart) {
-    const getProduct = getCart.find(
-      (element) => element.id == cartUser.id && element.color == cartUser.color
-    );
-
-    if (getProduct) {
-      getProduct.quantity += cartUser.quantity;
-
-      localStorage.setItem("panier", JSON.stringify(getCart));
-      return;
-    }
-    getCart.push(cartUser);
-    localStorage.setItem("panier", JSON.stringify(getCart));
-  } else {
-    const cart = [];
-    cart.push(cartUser);
-    localStorage.setItem("panier", JSON.stringify(cart));
-  }
-});*/
