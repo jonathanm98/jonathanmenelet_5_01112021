@@ -1,17 +1,16 @@
 /* J'initialise la variable article qui contiendra mon api */
 let articles = [];
 
-/* Je récupére mes articles depuis mon API */
-const fetchApi = async () => {
+/* Je crée une fonction qui récupére tout les articles depuis mon API */
+async function fetchApi() {
   await fetch("http://localhost:3000/api/products")
     .then((res) => res.json())
+    // Je stock le tout dans une variable articles
     .then((data) => (articles = data));
-
-  // console.log(articles);
-};
+}
 
 /* Je crée une fonction avec une boucle pour afficher mes vignettes */
-const canapDisplay = async () => {
+async function canapDisplay() {
   await fetchApi();
   let items = document.getElementById("items");
   for (let i = 0; i < articles.length; i++) {
@@ -24,5 +23,5 @@ const canapDisplay = async () => {
         </article>
       </a>`;
   }
-};
+}
 canapDisplay();
