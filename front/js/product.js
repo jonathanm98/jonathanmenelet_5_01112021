@@ -7,6 +7,9 @@ let colorSelector = document.getElementById("colors");
 let quantitySelector = document.getElementById("quantity");
 let validateInput = document.getElementById("addToCart");
 let storage = JSON.parse(localStorage.getItem("panier"));
+if (storage == null) {
+  storage = [];
+}
 let product = [];
 let cartUser = {
   name: "",
