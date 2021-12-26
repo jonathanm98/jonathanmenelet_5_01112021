@@ -217,7 +217,8 @@ else if (location.href.search("confirmation") < 0) {
     }
   });
 }
-// SINON c'est que nous sommes sur la page "confirmation.html" et on affiche le numero de commande stocké dans l'URL
+// SINON c'est que nous sommes sur la page "confirmation.html" donc on affiche le numero de commande stocké dans l'URL
+// et on supprime le panier du localStorage pour pouvoir passer d'autres commandes
 else {
   orderId = window.location.search.replace("?", "");
   document.getElementById("orderId").innerHTML = orderId;
