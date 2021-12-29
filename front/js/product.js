@@ -7,9 +7,7 @@ let colorSelector = document.getElementById("colors");
 let quantitySelector = document.getElementById("quantity");
 let validateInput = document.getElementById("addToCart");
 let storage = JSON.parse(localStorage.getItem("panier"));
-if (storage == null) {
-  storage = [];
-}
+
 let product = [];
 let cartUser = {
   name: "",
@@ -20,6 +18,10 @@ let cartUser = {
   srcImg: "",
   altTxt: "",
 };
+
+if (storage == null) {
+  storage = [];
+}
 
 /* Je récupére mon produit depuis mon API */
 const fetchApiProduct = async () => {
@@ -63,44 +65,49 @@ colorSelector.addEventListener("input", (e) => {
   cartUser.color = e.target.value;
 });
 // On recupere la quantité choisie dans l'objet cartUser
-quantitySelector.addEventListener("input", (e) => {
+quantitySelector.addEventListener("change", (e) => {
   cartUser.quantity = parseInt(e.target.value);
 });
 
-// EventListener pour la soumition du formulaire
+// ----------------NOUVELLE VALIDATION FORM-------------
 validateInput.addEventListener("click", () => {
-  //Fonction qui sera appelé à chaque click et qui definiera que faire de notre obj cartUser
-  function produitDoublon() {
-    //Courte fonction qui permettra de trouver les articles en doublon
-    const getProduct = storage.find(
-      (element) => element.id == cartUser.id && element.color == cartUser.color
-    );
-    // SI la couleur n'est pas definie,
-    if (cartUser.color == "") {
-      //on averti l'utilisateur que le champ doit être renseigné
-      alert("Veuillez choisir une coulaur valide");
-    }
-    // SINON SI la quantité n'est pas definie,
-    else if (cartUser.quantity == 0 || cartUser.quantity == "") {
-      //on averti l'utilisateur que le champ doit être renseigné
-      alert("Veuillez choisir une quantité");
-    }
-    // SINON SI un objet existe deja dans notre panier et que son id correspond a un id existant dans le penier
-    else if (getProduct) {
+  // Fonction qui envoie notre objet au localStorage
+  function setToLocalStorage() {
+    // SI un des objet de mon storage à le même id et la même color que mon objet cartUser ...
+    if (
+      storage.find(
+        (item) => item.id == cartUser.id && item.color == cartUser.color
+      )
+    ) {
+      // ... on execute la boucle suivante
+      // POUR chaque article dans notre panier ...
       for (article of storage) {
-        if (article.id === cartUser.id) {
-          // On créer une affectation après addition
+        // ... SI cet objet est l'objet qui à le même id et la même color ...
+        if (article.id == cartUser.id && article.color == cartUser.color) {
+          // ... on effectue une affectation après addition
           article.quantity += cartUser.quantity;
         }
       }
-      // On envoie le tout dans notre localStorage
-      localStorage.setItem("panier", JSON.stringify(storage));
     }
-    // SINON On envoie le tout dans notre localStorage
+    // SINON on crée un objet dans le storage avec notre cartUser
     else {
       storage.push(cartUser);
-      localStorage.setItem("panier", JSON.stringify(storage));
+    }
+    // On met à jour le localStorage avec notre storage[...]
+    localStorage.setItem("panier", JSON.stringify(storage));
+  }
+
+  // Fonction qui vérifie que les champ quantité et couleur sont bien renseigné
+  function verifyInvalidInput() {
+    if (cartUser.color == "") {
+      // on averti l'utilisateur que le champ doit être renseigné
+      alert("Veuillez choisir une couleur valide");
+    } else if (cartUser.quantity == 0 || cartUser.quantity == "") {
+      //       //on averti l'utilisateur que le champ doit être renseigné
+      alert("Veuillez choisir une quantité");
+    } else {
+      setToLocalStorage();
     }
   }
-  produitDoublon();
+  verifyInvalidInput();
 });
