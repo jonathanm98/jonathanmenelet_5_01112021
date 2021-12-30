@@ -72,9 +72,10 @@ if (location.href.search("confirmation") > 0) {
   //
   //------ Fonction qui recalcule le total des quantité et du prix
   function recalc() {
+    let cart = JSON.parse(localStorage.getItem("panier"));
     let quantity = 0;
     let total = 0;
-    for (article of panier) {
+    for (article of cart) {
       quantity += parseInt(article.quantity);
       total += parseFloat(article.price) * parseInt(article.quantity);
     }

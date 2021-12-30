@@ -94,17 +94,21 @@ validateInput.addEventListener("click", () => {
         getProduct.quantity += cartUser.quantity;
         // On envoie le nouveau panier dans le localStorage
         localStorage.setItem("panier", JSON.stringify(storage));
+        alert("Votre quantité à bien été mise a jour");
+
         return;
       }
       // On crée un nouveau objet dans le panier si la couleur est différente
       storage.push(cartUser);
       localStorage.setItem("panier", JSON.stringify(storage));
+      alert("Votre produit à bien été ajouté au panier");
     }
     // SINON le panier est vide on crée le premier objet
     else {
       const cart = [];
       cart.push(cartUser);
       localStorage.setItem("panier", JSON.stringify(cart));
+      alert("Votre produit à bien été ajouté au panier");
     }
   }
   verifyInvalidInput();
