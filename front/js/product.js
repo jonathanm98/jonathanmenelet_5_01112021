@@ -6,7 +6,6 @@ let description = document.getElementById("description");
 let colorSelector = document.getElementById("colors");
 let quantitySelector = document.getElementById("quantity");
 let validateInput = document.getElementById("addToCart");
-let storage = JSON.parse(localStorage.getItem("panier"));
 
 let product = [];
 let cartUser = {
@@ -19,10 +18,6 @@ let cartUser = {
   altTxt: "",
 };
 
-if (storage == null) {
-  storage = [];
-}
-
 /* Je récupére mon produit depuis mon API */
 const fetchApiProduct = async () => {
   await fetch(`http://localhost:3000/api/products/${productId}`)
@@ -31,7 +26,7 @@ const fetchApiProduct = async () => {
 };
 
 // Je modifie les éléments de la page par rapport au produit séléctionné
-const productPush = async () => {
+const productAddInfos = async () => {
   await fetchApiProduct();
   //Titre document
   document.title = product.name;
@@ -58,7 +53,7 @@ const productPush = async () => {
   cartUser.srcImg = product.imageUrl;
   cartUser.altTxt = product.altTxt;
 };
-productPush();
+productAddInfos();
 
 // On envoie la couleur choisie de la liste déroulante dans l'objet cartUser
 colorSelector.addEventListener("input", (e) => {
@@ -71,42 +66,45 @@ quantitySelector.addEventListener("change", (e) => {
 
 // ----------------NOUVELLE VALIDATION FORM-------------
 validateInput.addEventListener("click", () => {
-  // Fonction qui envoie notre objet au localStorage
-  function setToLocalStorage() {
-    // SI un des objet de mon storage à le même id et la même color que mon objet cartUser ...
-    if (
-      storage.find(
-        (item) => item.id == cartUser.id && item.color == cartUser.color
-      )
-    ) {
-      // ... on execute la boucle suivante
-      // POUR chaque article dans notre panier ...
-      for (article of storage) {
-        // ... SI cet objet est l'objet qui à le même id et la même color ...
-        if (article.id == cartUser.id && article.color == cartUser.color) {
-          // ... on effectue une affectation après addition
-          article.quantity += cartUser.quantity;
-        }
-      }
-    }
-    // SINON on crée un objet dans le storage avec notre cartUser
-    else {
-      storage.push(cartUser);
-    }
-    // On met à jour le localStorage avec notre storage[...]
-    localStorage.setItem("panier", JSON.stringify(storage));
-  }
-
   // Fonction qui vérifie que les champ quantité et couleur sont bien renseigné
   function verifyInvalidInput() {
     if (cartUser.color == "") {
       // on averti l'utilisateur que le champ doit être renseigné
       alert("Veuillez choisir une couleur valide");
     } else if (cartUser.quantity == 0 || cartUser.quantity == "") {
-      //       //on averti l'utilisateur que le champ doit être renseigné
+      //on averti l'utilisateur que le champ doit être renseigné
       alert("Veuillez choisir une quantité");
     } else {
       setToLocalStorage();
+    }
+  }
+  // Fonction qui envoie notre objet au localStorage
+  function setToLocalStorage() {
+    let storage = JSON.parse(localStorage.getItem("panier"));
+
+    // SI notre panier n'est pas vide
+    if (storage) {
+      // On cherche l'article avec le même id et la même color que notre obj cartUser ...
+      let getProduct = storage.find(
+        (element) =>
+          element.id == cartUser.id && element.color == cartUser.color
+      );
+      // ... et on met à jour sa quantité
+      if (getProduct) {
+        getProduct.quantity += cartUser.quantity;
+        // On envoie le nouveau panier dans le localStorage
+        localStorage.setItem("panier", JSON.stringify(storage));
+        return;
+      }
+      // On crée un nouveau objet dans le panier si la couleur est différente
+      storage.push(cartUser);
+      localStorage.setItem("panier", JSON.stringify(storage));
+    }
+    // SINON le panier est vide on crée le premier objet
+    else {
+      const cart = [];
+      cart.push(cartUser);
+      localStorage.setItem("panier", JSON.stringify(cart));
     }
   }
   verifyInvalidInput();
