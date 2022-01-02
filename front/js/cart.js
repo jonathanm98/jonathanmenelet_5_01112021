@@ -11,9 +11,6 @@ contact = {
 products = [];
 orderId = undefined;
 inputError = 0;
-//
-//------Affichage des vignettes pour chaque élément du panier
-//
 
 // SINON SI nous nous trouvons dans la page panier on execute notre code
 if (location.href.search("confirmation") > 0) {
@@ -25,12 +22,14 @@ if (location.href.search("confirmation") > 0) {
   localStorage.removeItem("panier");
 } else {
   // SI le panier est vide on affiche "Vous n'avez aucun article dans votre panier !" à la place
-
   if (panier == null) {
     document.getElementById(
       "cart__items"
     ).innerHTML = `<h3 style="text-align: center; margin-bottom: 50px;">Vous n'avez aucun article dans votre panier !</h3>`;
-  } else {
+  }
+  // SINON on affiche les vignettes de chaque élément du panier
+  //
+  else {
     for (let article of panier) {
       qty += article.quantity;
       total += article.quantity * article.price;
@@ -258,15 +257,19 @@ if (location.href.search("confirmation") > 0) {
         location.href = "confirmation.html?" + orderId;
       }
     }
+    // Fontion qui envoie les id de tout les produits dans le tableau product
     function collectDatas() {
       for (let article of panier) {
         products.push(article.id);
       }
     }
+    // SI tout les champs sont valides (validForm = true) on continue l'execution du code
     if (validForm) {
       collectDatas();
       sendData();
-    } else {
+    }
+    // SINON on reverifie les champs
+    else {
       validFirstName(inputFirstName.value);
       validLastName(inputLastName.value);
       validAddress(inputAddress.value);
