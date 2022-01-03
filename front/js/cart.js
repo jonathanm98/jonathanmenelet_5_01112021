@@ -86,6 +86,11 @@ if (location.href.search("confirmation") > 0) {
         currency: "EUR",
       }
     ).format(total);
+
+    if (quantity == 0) {
+      localStorage.removeItem("panier");
+      panier = null;
+    }
   }
 
   let vignettes = document.getElementsByClassName("cart__item");
