@@ -74,7 +74,8 @@ validateInput.addEventListener("click", () => {
         title: "Veuillez choisir une couleur valide",
         icon: "error",
         iconColor: "#3498db",
-        confirmButtonColor: "#2c3e50",
+        showConfirmButton: false,
+        timer: 2000,
       });
     } else if (cartUser.quantity == 0 || cartUser.quantity == "") {
       //on averti l'utilisateur que le champ doit être renseigné
@@ -82,7 +83,8 @@ validateInput.addEventListener("click", () => {
         title: "Veuillez choisir une quantité",
         icon: "error",
         iconColor: "#3498db",
-        confirmButtonColor: "#2c3e50",
+        showConfirmButton: false,
+        timer: 2000,
       });
     } else {
       setToLocalStorage();
@@ -108,7 +110,8 @@ validateInput.addEventListener("click", () => {
           title: "La quantité désirée à bien été mise à jour",
           icon: "success",
           iconColor: "#3498db",
-          confirmButtonColor: "#2c3e50",
+          showConfirmButton: false,
+          timer: 2000,
         });
         return;
       }
@@ -119,7 +122,8 @@ validateInput.addEventListener("click", () => {
         title: "Votre produit à bien été ajouté au panier",
         icon: "success",
         iconColor: "#3498db",
-        confirmButtonColor: "#2c3e50",
+        showConfirmButton: false,
+        timer: 2000,
       });
     }
     // SINON le panier est vide on crée le premier objet
@@ -131,7 +135,8 @@ validateInput.addEventListener("click", () => {
         title: "Votre produit à bien été ajouté au panier",
         icon: "success",
         iconColor: "#3498db",
-        confirmButtonColor: "#2c3e50",
+        showConfirmButton: false,
+        timer: 2000,
       });
     }
   }
