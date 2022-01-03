@@ -6,7 +6,7 @@ let description = document.getElementById("description");
 let colorSelector = document.getElementById("colors");
 let quantitySelector = document.getElementById("quantity");
 let validateInput = document.getElementById("addToCart");
-
+quantitySelector.value = 1;
 let product = [];
 let cartUser = {
   name: "",
@@ -63,7 +63,6 @@ colorSelector.addEventListener("input", (e) => {
 quantitySelector.addEventListener("change", (e) => {
   cartUser.quantity = parseInt(e.target.value);
 });
-
 // ----------------NOUVELLE VALIDATION FORM-------------
 validateInput.addEventListener("click", () => {
   // Fonction qui vérifie que les champ quantité et couleur sont bien renseigné
