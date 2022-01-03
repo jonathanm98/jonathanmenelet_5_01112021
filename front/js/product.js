@@ -70,10 +70,20 @@ validateInput.addEventListener("click", () => {
   function verifyInvalidInput() {
     if (cartUser.color == "") {
       // on averti l'utilisateur que le champ doit être renseigné
-      alert("Veuillez choisir une couleur valide");
+      new Swal({
+        title: "Veuillez choisir une couleur valide",
+        icon: "error",
+        iconColor: "#3498db",
+        confirmButtonColor: "#2c3e50",
+      });
     } else if (cartUser.quantity == 0 || cartUser.quantity == "") {
       //on averti l'utilisateur que le champ doit être renseigné
-      alert("Veuillez choisir une quantité");
+      new Swal({
+        title: "Veuillez choisir une quantité",
+        icon: "error",
+        iconColor: "#3498db",
+        confirmButtonColor: "#2c3e50",
+      });
     } else {
       setToLocalStorage();
     }
@@ -94,21 +104,35 @@ validateInput.addEventListener("click", () => {
         getProduct.quantity += cartUser.quantity;
         // On envoie le nouveau panier dans le localStorage
         localStorage.setItem("panier", JSON.stringify(storage));
-        alert("Votre quantité à bien été mise a jour");
-
+        new Swal({
+          title: "La quantité désirée à bien été mise à jour",
+          icon: "success",
+          iconColor: "#3498db",
+          confirmButtonColor: "#2c3e50",
+        });
         return;
       }
       // On crée un nouveau objet dans le panier si la couleur est différente
       storage.push(cartUser);
       localStorage.setItem("panier", JSON.stringify(storage));
-      alert("Votre produit à bien été ajouté au panier");
+      new Swal({
+        title: "Votre produit à bien été ajouté au panier",
+        icon: "success",
+        iconColor: "#3498db",
+        confirmButtonColor: "#2c3e50",
+      });
     }
     // SINON le panier est vide on crée le premier objet
     else {
       const cart = [];
       cart.push(cartUser);
       localStorage.setItem("panier", JSON.stringify(cart));
-      alert("Votre produit à bien été ajouté au panier");
+      new Swal({
+        title: "Votre produit à bien été ajouté au panier",
+        icon: "success",
+        iconColor: "#3498db",
+        confirmButtonColor: "#2c3e50",
+      });
     }
   }
   verifyInvalidInput();

@@ -265,8 +265,26 @@ if (location.href.search("confirmation") > 0) {
     }
     // SI tout les champs sont valides (validForm = true) on continue l'execution du code
     if (validForm) {
-      collectDatas();
-      sendData();
+      if (panier) {
+        new Swal({
+          title: "Commande en cours...",
+          icon: "question",
+          iconColor: "yellow",
+          confirmButtonColor: "#2c3e50",
+          showConfirmButton: false,
+        });
+        collectDatas();
+        sendData();
+      } else {
+        new Swal({
+          title: "Votre panier est vide !",
+          icon: "error",
+          iconColor: "red",
+          confirmButtonColor: "#2c3e50",
+          timer: 3000,
+          showConfirmButton: false,
+        });
+      }
     }
     // SINON on reverifie les champs
     else {
