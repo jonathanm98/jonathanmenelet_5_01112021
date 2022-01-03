@@ -20,7 +20,7 @@ let cartUser = {
 
 /* Je récupére mon produit depuis mon API */
 const fetchApiProduct = async () => {
-  await fetch(`http://localhost:3000/api/products/${productId}`)
+  await fetch(`https://api-kanap-eu.herokuapp.com/api/products/${productId}`)
     .then((res) => res.json())
     .then((data) => (product = data));
 };

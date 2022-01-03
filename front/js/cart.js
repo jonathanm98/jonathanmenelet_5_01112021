@@ -243,7 +243,7 @@ if (location.href.search("confirmation") > 0) {
     e.preventDefault();
     // Fonction fetch qui envoie à l'API un objet contenant l'objet 'contact' et le tableau 'products'
     async function sendData() {
-      await fetch("http://localhost:3000/api/products/order", {
+      await fetch("https://api-kanap-eu.herokuapp.com/api/products/order", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

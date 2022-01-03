@@ -3,7 +3,7 @@ let articles = [];
 
 /* Je crée une fonction qui récupére tout les articles depuis mon API */
 async function fetchApi() {
-  await fetch("http://localhost:3000/api/products")
+  await fetch("https://api-kanap-eu.herokuapp.com/api/products")
     .then((res) => res.json())
     // Je stock le tout dans une variable articles
     .then((data) => (articles = data));
