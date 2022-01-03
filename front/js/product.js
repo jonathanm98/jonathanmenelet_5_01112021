@@ -73,20 +73,16 @@ validateInput.addEventListener("click", () => {
       new Swal({
         title: "Veuillez choisir une couleur valide",
         icon: "error",
-        iconColor: "red",
+        iconColor: "#3498db",
         confirmButtonColor: "#2c3e50",
-        timer: 2000,
-        showConfirmButton: false,
       });
     } else if (cartUser.quantity == 0 || cartUser.quantity == "") {
       //on averti l'utilisateur que le champ doit être renseigné
       new Swal({
         title: "Veuillez choisir une quantité",
         icon: "error",
-        iconColor: "red",
+        iconColor: "#3498db",
         confirmButtonColor: "#2c3e50",
-        timer: 2000,
-        showConfirmButton: false,
       });
     } else {
       setToLocalStorage();
@@ -113,8 +109,6 @@ validateInput.addEventListener("click", () => {
           icon: "success",
           iconColor: "#3498db",
           confirmButtonColor: "#2c3e50",
-          timer: 2000,
-          showConfirmButton: false,
         });
         return;
       }
@@ -126,8 +120,6 @@ validateInput.addEventListener("click", () => {
         icon: "success",
         iconColor: "#3498db",
         confirmButtonColor: "#2c3e50",
-        timer: 2000,
-        showConfirmButton: false,
       });
     }
     // SINON le panier est vide on crée le premier objet
@@ -140,8 +132,6 @@ validateInput.addEventListener("click", () => {
         icon: "success",
         iconColor: "#3498db",
         confirmButtonColor: "#2c3e50",
-        timer: 2000,
-        showConfirmButton: false,
       });
     }
   }
