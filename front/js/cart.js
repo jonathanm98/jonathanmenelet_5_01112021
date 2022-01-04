@@ -23,6 +23,8 @@ if (location.href.search("confirmation") > 0) {
 } else {
   // SI le panier est vide on affiche "Vous n'avez aucun article dans votre panier !" à la place
   if (panier == null) {
+    document.getElementById("totalQuantity").innerHTML = 0;
+    document.getElementById("totalPrice").innerHTML = 0 + " €";
     document.getElementById(
       "cart__items"
     ).innerHTML = `<h3 style="text-align: center; margin-bottom: 50px;">Vous n'avez aucun article dans votre panier !</h3>`;
