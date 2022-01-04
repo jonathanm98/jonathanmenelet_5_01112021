@@ -6,6 +6,7 @@ let description = document.getElementById("description");
 let colorSelector = document.getElementById("colors");
 let quantitySelector = document.getElementById("quantity");
 let validateInput = document.getElementById("addToCart");
+quantitySelector.value = "";
 let product = [];
 let cartUser = {
   name: "",
