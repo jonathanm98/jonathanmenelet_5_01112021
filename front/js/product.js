@@ -6,7 +6,6 @@ let description = document.getElementById("description");
 let colorSelector = document.getElementById("colors");
 let quantitySelector = document.getElementById("quantity");
 let validateInput = document.getElementById("addToCart");
-quantitySelector.value = 1;
 let product = [];
 let cartUser = {
   name: "",
@@ -61,7 +60,9 @@ colorSelector.addEventListener("input", (e) => {
 });
 // On recupere la quantité choisie dans l'objet cartUser
 quantitySelector.addEventListener("change", (e) => {
-  cartUser.quantity = parseInt(e.target.value);
+  if (e.target.value != "" || e.target.value != 0) {
+    cartUser.quantity = parseInt(e.target.value);
+  }
 });
 // ----------------NOUVELLE VALIDATION FORM-------------
 validateInput.addEventListener("click", () => {
