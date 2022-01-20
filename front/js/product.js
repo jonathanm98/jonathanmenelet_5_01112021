@@ -48,7 +48,6 @@ const productAddInfos = async () => {
   }
   //on stock les infos nom/prix/id dans l'objet cartUser
   cartUser.name = product.name;
-  cartUser.price = product.price;
   cartUser.id = product._id;
   cartUser.srcImg = product.imageUrl;
   cartUser.altTxt = product.altTxt;
