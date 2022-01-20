@@ -134,41 +134,36 @@ if (location.href.search("confirmation") > 0) {
         deleteItem.textContent = "Supprimer";
       }
 
+      let vignettes = document.querySelectorAll(".cart__item");
       let suppressions = document.querySelectorAll(".deleteItem");
       let quantity = document.querySelectorAll(".itemQuantity");
-      for (qty of quantity) {
-        // const suppr = suppressions[i];
-        // const qty = quantity[i];
+      for (let i = 0; i < vignettes.length; i++) {
+        const qty = quantity[i];
         qty.addEventListener("change", (e) => {
           //On envoie la quantité selectionnée dans le panier
-          // panier[i].quantity = parseInt(e.target.value);
-          console.log(e);
+          panier[i].quantity = parseInt(e.target.value);
           // // On met à jour le localstorage
-          // localStorage.setItem("panier", JSON.stringify(panier));
+          localStorage.setItem("panier", JSON.stringify(panier));
           // on lance la fonction qui va mettre à jour le prix et le total de la page panier
           recalc();
         });
       }
 
-      function addSupressionListener() {
-        for (let i = 0; i < suppressions.length; i++) {
-          let suppr = suppressions[i];
-          suppr.addEventListener("click", () => {
-            // On supprime de notre panier l'élément de la boucle selectionné via splice()
-            panier.splice(i, 1);
-            // on supprime le code HTML de ce même élément
-            vignettes[i].remove();
-            // On met à jour le localstorage
-            // localStorage.setItem("panier", JSON.stringify(panier));
-            console.log(panier);
-            // on lance la fonction qui va mettre à jour le prix et le total de la page panier
-            recalc();
-          });
-        }
+      for (let i = 0; i < vignettes.length; i++) {
+        let suppr = suppressions[i];
+        suppr.addEventListener("click", () => {
+          // On supprime de notre panier l'élément de la boucle selectionné via splice()
+          panier.splice(i, 1);
+          // on supprime le code HTML de ce même élément
+          console.log(cart__items.children);
+          cart__items.children[i].remove();
+          // On met à jour le localstorage
+          localStorage.setItem("panier", JSON.stringify(panier));
+          // on lance la fonction qui va mettre à jour le prix et le total de la page panier
+          recalc();
+        });
       }
-      addSupressionListener();
 
-      createElements();
       // Affichage de la quantité et du prix total
       document.getElementById("totalQuantity").innerHTML = qty;
       document.getElementById("totalPrice").innerHTML = Intl.NumberFormat(
@@ -180,6 +175,8 @@ if (location.href.search("confirmation") > 0) {
         }
       ).format(total);
     }
+    createElements();
+
     //
     //------ Fonction qui recalcule le total des quantité et du prix
     function recalc() {
@@ -196,12 +193,16 @@ if (location.href.search("confirmation") > 0) {
         {
           style: "currency",
           currency: "EUR",
+          maximumFractionDigits: 0,
         }
       ).format(total);
 
       if (quantity == 0) {
         localStorage.removeItem("panier");
         panier = null;
+        document.getElementById(
+          "cart__items"
+        ).innerHTML = `<h3 style="text-align: center; margin-bottom: 50px;">Vous n'avez aucun article dans votre panier !</h3>`;
       }
     }
 
