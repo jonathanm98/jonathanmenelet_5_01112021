@@ -150,13 +150,25 @@ if (location.href.search("confirmation") > 0) {
       }
 
       for (let i = 0; i < vignettes.length; i++) {
-        let suppr = suppressions[i];
+        const suppr = suppressions[i];
+        let colorId = panier[i].color;
+        let dataId = panier[i].id;
+        // let article = panier[i];
         suppr.addEventListener("click", () => {
           // On supprime de notre panier l'élément de la boucle selectionné via splice()
-          panier.splice(i, 1);
+          let filtre = panier.filter(function (article) {
+            return article.id != dataId || article.color != colorId;
+          });
+
+          panier = filtre;
+          console.log(panier);
+
           // on supprime le code HTML de ce même élément
-          console.log(cart__items.children);
-          cart__items.children[i].remove();
+          document
+            .querySelector(
+              `[data-id='${dataId}']` && `[data-color='${colorId}']`
+            )
+            .remove();
           // On met à jour le localstorage
           localStorage.setItem("panier", JSON.stringify(panier));
           // on lance la fonction qui va mettre à jour le prix et le total de la page panier
