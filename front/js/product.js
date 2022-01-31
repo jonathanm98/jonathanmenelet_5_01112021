@@ -18,7 +18,7 @@ let cartUser = {
   altTxt: "",
 };
 
-/* Je récupére mon produit depuis mon API */
+// Je récupére mon produit depuis mon API
 const fetchApiProduct = async () => {
   await fetch(`https://api-kanap-eu.herokuapp.com/api/products/${productId}`)
     .then((res) => res.json())

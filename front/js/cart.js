@@ -14,11 +14,12 @@ inputError = 0;
 
 // SINON SI nous nous trouvons dans la page panier on execute notre code
 if (location.href.search("confirmation") > 0) {
-  // SINON c'est que nous sommes sur la page "confirmation.html" donc on affiche le numero de commande stocké dans l'URL
-  // et on supprime le panier du localStorage pour pouvoir passer d'autres commandes
+  // SINON c'est que nous sommes sur la page "confirmation.html"
 
+  // Donc on affiche le numero de commande stocké dans l'URL
   orderId = window.location.search.replace("?", "");
   document.getElementById("orderId").innerHTML = orderId;
+  // On supprime le panier du localStorage pour pouvoir passer d'autres commandes
   localStorage.removeItem("panier");
 } else {
   // SI le panier est vide on affiche "Vous n'avez aucun article dans votre panier !" à la place
@@ -45,6 +46,7 @@ if (location.href.search("confirmation") > 0) {
 
         qty += article.quantity;
         total += article.quantity * article.price;
+
         // Création de toutes les balises qui seront utilisés
         let cart__item = document.createElement("article");
         let cart__item__img = document.createElement("div");
@@ -217,36 +219,6 @@ if (location.href.search("confirmation") > 0) {
         ).innerHTML = `<h3 style="text-align: center; margin-bottom: 50px;">Vous n'avez aucun article dans votre panier !</h3>`;
       }
     }
-
-    // // Boucle qui ajoute un eventListener sur toute les vignettes d'article affichés dans le panier
-    // for (let i = 0; i < vignettes.length; i++) {
-    //   let vignette = vignettes[i];
-    //   vignette.addEventListener("change", (e) => {
-    //     console.log(panier);
-    //     //On envoie la quantité selectionnée dans le panier
-    //     panier[i].quantity = parseInt(e.target.value);
-    //     // On met à jour le localstorage
-    //     localStorage.setItem("panier", JSON.stringify(panier));
-    //     // on lance la fonction qui va mettre à jour le prix et le total de la page panier
-    //     recalc();
-    //   });
-    // }
-    // //
-    // // Boucle qui ajoute un eventListener sur toute les vignettes d'article affichés dans le panier
-    // for (let i = 0; i < suppressions.length; i++) {
-    //   let suppr = suppressions[i];
-    //   suppr.addEventListener("click", () => {
-    //     // On supprime de notre panier l'élément de la boucle selectionné via splice()
-    //     panier.splice(i, 1);
-    //     // on supprime le code HTML de ce même élément
-    //     vignettes[i].remove();
-    //     // On met à jour le localstorage
-    //     localStorage.setItem("panier", JSON.stringify(panier));
-    //     console.log(panier);
-    //     // on lance la fonction qui va mettre à jour le prix et le total de la page panier
-    //     recalc();
-    //   });
-    // }
 
     //------Formulaire utilisateur
 
