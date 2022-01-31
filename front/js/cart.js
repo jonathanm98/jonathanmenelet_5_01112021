@@ -139,11 +139,13 @@ if (location.href.search("confirmation") > 0) {
       let vignettes = document.querySelectorAll(".cart__item");
       let suppressions = document.querySelectorAll(".deleteItem");
       let quantity = document.querySelectorAll(".itemQuantity");
+
       for (let i = 0; i < vignettes.length; i++) {
         const qty = quantity[i];
+        const objet = panier[i];
         qty.addEventListener("change", (e) => {
           //On envoie la quantité selectionnée dans le panier
-          panier[i].quantity = parseInt(e.target.value);
+          objet.quantity = parseInt(e.target.value);
           // // On met à jour le localstorage
           localStorage.setItem("panier", JSON.stringify(panier));
           // on lance la fonction qui va mettre à jour le prix et le total de la page panier
