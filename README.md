@@ -1,4 +1,4 @@
-# Projet Groupomania - Jonathan Menelet
+# Projet Kanap - Jonathan Menelet
 
 [Lien du site fonctionnel](https://jonathanm98.github.io/kanap/html/index.html)
 
