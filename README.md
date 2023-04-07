@@ -1,6 +1,6 @@
 # Projet Kanap - Jonathan Menelet
 
-[Lien du site fonctionnel](https://jonathanm98.github.io/kanap/html/index.html)
+[~~Lien du site fonctionnel~~](https://jonathanm98.github.io/kanap/html/index.html) (l'API n'est plus fonctionelle)
 
 ## Tâches réalisées
 
